@@ -11,6 +11,7 @@
     "test": "jest"
   },
   "dependencies": {
+    "node-fetch": "^2.7.0",
     "react": "^19.0.0",
     "react-circular-progressbar": "^2.2.0",
     "react-dom": "^19.0.0",
@@ -22,6 +23,7 @@
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.3.0",
     "@types/jest": "^29.5.14",
+    "@types/node-fetch": "^2.6.12",
     "@types/react": "^19.0.10",
     "@types/react-dom": "^19.0.4",
     "@vitejs/plugin-react": "^4.3.4",

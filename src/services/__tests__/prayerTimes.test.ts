@@ -105,50 +105,5 @@ describe('PrayerTimesService', () => {
     expect(meccaResult.code).toBe(200); // Fresh API call
   });
 
-  describe('segment calculation', () => {
-    test('calculates segments correctly', async () => {
-      const ny = testLocations[0].coordinates;
-      const testTime = new Date('2025-04-24T12:00:00'); // Noon
-
-      const result = await service.calculateSegments(ny, testTime);
-
-      // Verify structure
-      expect(result.currentSegment).toBeDefined();
-      expect(result.nextSegment).toBeDefined();
-      expect(result.segments).toHaveLength(7); // All 7 segments of the day
-
-      // Verify segment names
-      const segmentNames = result.segments.map(s => s.name);
-      expect(segmentNames).toEqual(['Layl', 'Fajr', 'Subuh', 'Dhuhr', 'Asr', 'Maghrib', 'Isha']);
-
-      // Since we set time to noon, current segment should be either Dhuhr or Subuh
-      expect(['Dhuhr', 'Subuh']).toContain(result.currentSegment.name);
-
-      // Log segments for manual verification
-      console.log('\n⏰ Segments for New York:');
-      result.segments.forEach(segment => {
-        console.log(`${segment.name.padEnd(8)}: ${segment.startTime.toLocaleTimeString()} - ${segment.endTime.toLocaleTimeString()}`);
-      });
-      console.log(`Current segment: ${result.currentSegment.name}`);
-      console.log(`Next segment: ${result.nextSegment.name}`);
-    });
-
-    test('handles segment transitions correctly', async () => {
-      const ny = testLocations[0].coordinates;
-      // Use a fixed time to make test more predictable
-      const baseTime = new Date('2025-04-24T12:00:00'); // Noon
-      const result = await service.calculateSegments(ny, baseTime);
-
-      // Get current segment's end time and add 1 minute
-      const transitionTime = new Date(result.currentSegment.endTime.getTime() + 60000);
-      const afterTransition = await service.calculateSegments(ny, transitionTime);
-
-      // Verify that we've actually moved to a different segment
-      expect(afterTransition.currentSegment.name).not.toBe(result.currentSegment.name);
-      
-      // Verify the transition time is within the new segment
-      expect(afterTransition.currentSegment.contains(transitionTime)).toBe(true);
-    });
-  });
+  // Removed tests related to calculateSegments as it is now handled in TimeSegmentService.
 });
-
